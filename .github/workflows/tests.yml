@@ -40,6 +40,7 @@ jobs:
               run: vendor/bin/phpstan
 
             - name: Tests
+              if: ${{ github.event.pull_request.base.ref != '3.x'}} || startsWith(${{ matrix.php }}, '7.')
               run: vendor/bin/phpunit --coverage-clover clover.xml
 
             - name: Upload coverage results to Coveralls
