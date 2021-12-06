@@ -141,7 +141,7 @@ class Request extends Message implements ServerRequestInterface
         $body = new RequestBody();
         $uploadedFiles = UploadedFile::createFromEnvironment($environment);
 
-        $request = new static($method, $uri, $headers, $cookies, $serverParams, $body, $uploadedFiles);
+        $request = new self($method, $uri, $headers, $cookies, $serverParams, $body, $uploadedFiles);
 
         if ($method === 'POST' &&
             in_array($request->getMediaType(), ['application/x-www-form-urlencoded', 'multipart/form-data'])
@@ -1014,7 +1014,7 @@ class Request extends Message implements ServerRequestInterface
         $mediaType = $this->getMediaType();
 
         // Check if this specific media type has a parser registered first
-        if (!isset($this->bodyParsers[$mediaType])) {
+        if ($mediaType !== null && !isset($this->bodyParsers[$mediaType])) {
             // If not, look for a media type with a structured syntax suffix (RFC 6839)
             $parts = explode('+', $mediaType);
             if (count($parts) >= 2) {
@@ -1208,7 +1208,7 @@ class Request extends Message implements ServerRequestInterface
 
         return $params;
     }
-    
+
     private static function disableXmlEntityLoader($disable)
     {
         if (\LIBXML_VERSION >= 20900) {
