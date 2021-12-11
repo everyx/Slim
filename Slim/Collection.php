@@ -122,6 +122,7 @@ class Collection implements CollectionInterface
      *
      * @return mixed The key's value, or the default value
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($key)
     {
         return $this->get($key);
