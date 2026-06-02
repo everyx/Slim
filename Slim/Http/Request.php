@@ -1022,7 +1022,7 @@ class Request extends Message implements ServerRequestInterface
             }
         }
 
-        if (isset($this->bodyParsers[$mediaType])) {
+        if ($mediaType !== null && isset($this->bodyParsers[$mediaType])) {
             $body = (string)$this->getBody();
             $parsed = $this->bodyParsers[$mediaType]($body);
 
